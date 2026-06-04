@@ -1,0 +1,34 @@
+module d_flipflop_tb;
+reg rst,clk,d;
+wire q;
+d_flipflop uut(
+               .rst(rst),
+               .clk(clk),
+               .d(d),
+               .q(q)
+);
+initial begin
+$dumpfile("dump.vcd");
+$dumpvars();
+$monitor("time=%0t rst=%b d=%b q=%b",$time,rst,d,q);
+end
+
+always #5 
+clk=~clk;
+
+initial begin
+clk = 0;
+    rst = 1;
+    d = 0;
+
+#10 rst = 0;
+
+d=0; #10
+d=1; #10
+d=1; #10
+d=0; #10
+d=1; #10
+
+$finish;
+end
+endmodule
