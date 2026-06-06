@@ -1,0 +1,21 @@
+module or_by_nand_tb;
+  reg a,b;
+  wire na,nb,y;
+  or_by_nand DUT(.a(a),.b(b),.na(na),.nb(nb),.y(y));
+               initial begin
+                 $dumpfile("dump.vcd");
+                 $dumpvars(1);
+                 $monitor("a=%b b=%b na=%b nb=%b,y=%b",a,b,na,nb,y);
+                 a=0;
+                 b=0;
+                 #10
+                 a=0;
+                 b=1;
+                 #10
+                 a=1;
+                 b=0;
+                 #10
+                 a=1;
+                 b=1;
+               end
+               endmodule
