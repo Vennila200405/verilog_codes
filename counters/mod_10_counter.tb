@@ -1,0 +1,28 @@
+module tb_mod10;
+reg clk, rst;
+wire [3:0] count;
+mod10_counter DUT(
+.clk(clk),
+.rst(rst),
+.count(count)
+);
+
+initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+end
+
+initial begin
+    rst = 1;
+    #12;
+
+    rst = 0;
+    #200;
+
+    $finish;
+end
+
+initial begin
+    $monitor("time=%0t rst=%b count=%d", $time, rst, count);
+end
+endmodule
