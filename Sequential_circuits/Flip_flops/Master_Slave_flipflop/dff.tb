@@ -1,0 +1,33 @@
+module master_slave_dflipflop_tb;
+
+reg d;
+reg clk;
+wire q;
+
+master_slave_dflipflop uut(
+    .d(d),
+    .clk(clk),
+    .q(q)
+);
+
+always #5 clk = ~clk;
+
+initial begin
+    clk = 0;
+    d = 0;
+
+    #5  d = 1;
+    #10 d = 0;
+    #10 d = 1;
+    #10 d = 0;
+
+    #20 $finish;
+end
+
+initial begin
+     $dumpfile("dump.vcd");
+     $dumpvars(0,master_slave_dflipflop_tb);
+     $monitor("time=%0t clk=%b d=%b master=%b q=%b", $time, clk, d, uut.master, q);
+
+end
+endmodule
