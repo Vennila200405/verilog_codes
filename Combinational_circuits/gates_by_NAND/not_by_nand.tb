@@ -1,0 +1,11 @@
+module not_by_nand_tb;
+  reg A;
+  wire y;
+  not_by_nand DUT(.A(A),.y(y));
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(1);
+    $monitor("A=%b y=%b",A,y);
+    A=0;
+  end
+endmodule
