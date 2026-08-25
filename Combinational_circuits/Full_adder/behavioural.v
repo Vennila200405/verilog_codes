@@ -1,0 +1,10 @@
+module full_adder(
+input a,b,c,
+output reg sum,
+output reg carry
+);
+always @(*)begin
+sum=a^b^c;
+carry= (a&b)|(b&c)|(a&c);
+end
+endmodule
