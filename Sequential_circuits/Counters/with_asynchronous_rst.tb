@@ -1,0 +1,34 @@
+module asynchronous_rst.tb;
+reg clk,rst;
+wire [3:0] count;
+async_counter DUT(
+.clk(clk),
+.rst(rst),
+.count(count)
+);
+
+initial
+begin
+clk = 0;
+forever #5 clk = ~clk;
+end
+
+initial begin
+    rst = 1;
+    #7;
+
+    rst = 0;
+    #30;
+
+    rst = 1;
+    #3;
+
+    rst = 0;
+    #40;
+
+    $finish;
+end
+initial begin
+    $monitor("time=%0t rst=%b count=%b",$time,rst,count);
+end
+endmodule
