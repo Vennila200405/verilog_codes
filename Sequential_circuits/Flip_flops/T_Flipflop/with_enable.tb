@@ -1,0 +1,44 @@
+module T_flipflop_sync_tb;
+reg clk;
+reg reset;
+reg en;
+reg t;
+wire q;
+
+T_flipflop_sync DUT(
+    .clk(clk),
+    .reset(reset),
+    .en(en),
+    .t(t),
+    .q(q)
+);
+
+always #5 clk = ~clk;
+initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0, T_flipflop_sync_tb);
+
+    $monitor("Time=%0t clk=%b reset=%b en=%b t=%b q=%b",
+             $time, clk, reset, en, t, q);
+end
+
+initial begin
+    clk   = 0;
+    reset = 1;
+    en    = 0;
+    t     = 0;
+    #12 reset = 0;
+    #8  en = 1; t = 1;
+    #20 t = 0;
+
+    #20 t = 1;
+
+    #15 reset = 1;
+    #10 reset = 0;
+
+    #10 en = 1; t = 1;
+
+    #20 $finish;
+end
+
+endmodule
