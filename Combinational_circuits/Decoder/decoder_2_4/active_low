@@ -1,0 +1,10 @@
+module decoder_2_4(
+input A,B,
+output Y0_n,Y1_n,Y2_n,Y3_n
+);
+assign Y0_n = ~(~A & ~B);
+assign Y1_n = ~(~A & B);
+assign Y2_n = ~(A & ~B);
+assign Y3_n = ~(A & B);
+
+endmodule
