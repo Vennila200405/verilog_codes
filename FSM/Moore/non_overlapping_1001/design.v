@@ -1,58 +1,54 @@
-module mealy_no (
+module moore_1001 (
     input clk,
     input rst,
     input x,
     output reg y);
-
-parameter s0 = 2'b00,
-          s1 = 2'b01,
-          s2 = 2'b10,
-          s3 = 2'b11;
-reg [1:0] state, next_state;
-
-
+parameter S0 = 3'b000,
+          S1 = 3'b001,
+          S2 = 3'b010,
+          S3 = 3'b011,
+          S4 = 3'b100;
+reg [2:0] state, next_state;
 always @(posedge clk or posedge rst) begin
     if (rst)
-        state <= s0;
+        state <= S0;
     else
         state <= next_state;
 end
 always @(*) begin
-     next_state = state;
-     y = 0;
-case (state)
- s0: begin
-         if (x == 1)
-                next_state = s1;
+    case (state)
+            S0: begin
+                    if (x) next_state = S1;
+                    else   next_state = S0;
+            end
+
+        S1: begin
+            if (x) next_state = S1;
+            else   next_state = S2;
         end
 
-        s1: begin
-            if (x == 0)
-                next_state = s2;
+        S2: begin
+            if (x) next_state = S1;
+            else   next_state = S3;
         end
 
-        s2: begin
-            if (x == 0)
-                next_state = s3;
-            else
-                next_state = s1;
+        S3: begin
+            if (x) next_state = S4;
+            else   next_state = S0;
         end
 
-        s3: begin
-            if (x == 1) begin
-                next_state = s0;
-                y = 1;
-end
-            else
-                next_state = s0;
-        end
+        S4: begin
 
-        default: begin
-            next_state = s0;
-            y = 0;
+            next_state = S0;
         end
+default: next_state = S0;
 
     endcase
 end
-
+always @(*) begin
+    case (state)
+        S4: y = 1;
+        default: y = 0;
+    endcase
+end
 endmodule
